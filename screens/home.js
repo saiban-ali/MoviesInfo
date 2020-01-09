@@ -4,6 +4,7 @@ import { Button, Icon, Header, Body, Right, Left, Title, Item, Card, CardItem } 
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import { FlatList } from 'react-native-gesture-handler';
+import MovieCard from '../components/movieCard';
 
 class Home extends Component {
 
@@ -18,6 +19,8 @@ class Home extends Component {
         this.logout = this.logout.bind(this);
         this.props.navigation.setParams({ logout: this.logout });
         this.getData = this.getData.bind(this);
+        this.saveMovie = this.saveMovie.bind(this);
+        this.removeMovie = this.removeMovie.bind(this);
     }
 
     componentDidMount() {
@@ -65,34 +68,14 @@ class Home extends Component {
         );
     };
 
-    renderMovie({ item }) {
-        const imageBaseUrl = 'https://image.tmdb.org/t/p/w342';
-        return(
-            <Card>
-                <CardItem style={{ justifyContent: 'center' }}>
-                    <Text style={{ color: '#000', fontSize: 15, fontWeight: 'bold'}}>{item.title}</Text>
-                </CardItem>
-                <CardItem cardBody>
-                    <Image 
-                    source={{ uri: `${imageBaseUrl}${item.poster_path}` }}
-                    style={{height: 200, width: null, flex: 1, resizeMode:'stretch'}} />
-                </CardItem>
-                <CardItem>
-                    <Left>
-                        <Button transparent>
-                            <Icon style={{ color: '#fca503' }} name='star-outlined' type='Entypo' />
-                            <Text style={{ marginHorizontal: 5, }}>{item.vote_average}</Text>
-                        </Button>
-                    </Left>
-                    <Right>
-                        <Button transparent>
-                            <Text style={{ marginHorizontal: 5, }}>{item.vote_count} Likes</Text>
-                            <Icon style={{ color: '#fca503' }} name='favorite-border' type='MaterialIcons' />
-                        </Button>
-                    </Right>
-                </CardItem>
-            </Card>
-        );
+    saveMovie(movie) {
+        // this.props.navigation.setParams({ movie: movie });
+        // console.log('movie saved' + this.props.navigation.state.params.movie.title);
+        this.props.screenProps.addFavoriteMovie(movie);
+    }
+
+    removeMovie(movie) {
+        this.props.screenProps.removeFavoriteMovie(movie);
     }
 
     render() {
@@ -112,7 +95,13 @@ class Home extends Component {
                     <FlatList 
                     style={{ marginVertical: 5, marginHorizontal: 5 }}
                     data={this.state.movies}
-                    renderItem={this.renderMovie}
+                    renderItem={({ item }) => <MovieCard
+                                                 movie={ item } 
+                                                 isSaved={ (movie) => { 
+                                                     return this.props.screenProps.favoriteMovies.includes(movie)
+                                                  }} 
+                                                 saveMovie={ this.saveMovie }
+                                                 removeMovie={ this.removeMovie } />}
                     keyExtractor={item => item.id.toString()}
                     ListEmptyComponent={() => <View></View>}
                     onEndReached={() => {
