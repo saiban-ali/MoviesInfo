@@ -5,6 +5,7 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import { FlatList } from 'react-native-gesture-handler';
 import MovieCard from '../components/movieCard';
+import TMDBApiKey from '../apiKeys'
 
 class Home extends Component {
 
@@ -33,7 +34,7 @@ class Home extends Component {
             return
         }
         console.log('data loading from page ' + this.state.page);
-        const topRatedUrl = 'https://api.themoviedb.org/3/movie/top_rated?api_key=118f9d78d779ac3535dd3fe360ca5599&language=en-US&page=' + this.state.page + '&region=us'
+        const topRatedUrl = 'https://api.themoviedb.org/3/movie/top_rated?api_key=' + TMDBApiKey + '&language=en-US&page=' + this.state.page + '&region=us'
         fetch(topRatedUrl)
         .then((response) => response.json())
         .then((responseJson) => {
