@@ -1,13 +1,14 @@
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createAppContainer } from 'react-navigation';
-import Home from './screens/home';
-import Favorites from './screens/favorites'
 import { Icon } from 'native-base';
+import movieStack from './movieStack';
+import favoriteMovieStack from './favoriteMovieStack';
+import Favorites from './screens/favorites';
 
 const routeConfig = {
-    Home: {
-        screen: Home,
+    MovieStack: {
+        screen: movieStack,
         navigationOptions: {
             tabBarLabel: 'Home',
             tabBarIcon: ({ tintColor }) => (

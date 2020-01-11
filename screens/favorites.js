@@ -20,6 +20,10 @@ class Favorites extends Component {
         console.log("Successfully logged out");
     }
 
+    navigateToMovieScreen = (movie) => {
+        this.props.navigation.navigate('Movie', { movie: movie });
+    }
+
     render() {
         return(
             <View style={styles.container}>
@@ -43,7 +47,8 @@ class Favorites extends Component {
                                                     return this.props.screenProps.favoriteMovies.includes(movie)
                                                  }} 
                                                  saveMovie={ this.props.screenProps.addFavoriteMovie }
-                                                 removeMovie={ this.props.screenProps.removeFavoriteMovie } />}
+                                                 removeMovie={ this.props.screenProps.removeFavoriteMovie }
+                                                 navigateToMovieScreen={ this.navigateToMovieScreen } />}
                     keyExtractor={item => item.id.toString()}
                     ListEmptyComponent={() => <View></View>} />
                 </View>

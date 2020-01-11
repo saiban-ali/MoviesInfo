@@ -79,6 +79,10 @@ class Home extends Component {
         this.props.screenProps.removeFavoriteMovie(movie);
     }
 
+    navigateToMovieScreen = (movie) => {
+        this.props.navigation.navigate('Movie', { movie: movie });
+    }
+
     render() {
         return(
             <View style={styles.container}>
@@ -102,7 +106,8 @@ class Home extends Component {
                                                      return this.props.screenProps.favoriteMovies.includes(movie)
                                                   }} 
                                                  saveMovie={ this.saveMovie }
-                                                 removeMovie={ this.removeMovie } />}
+                                                 removeMovie={ this.removeMovie }
+                                                 navigateToMovieScreen={ this.navigateToMovieScreen } />}
                     keyExtractor={item => item.id.toString()}
                     ListEmptyComponent={() => <View></View>}
                     onEndReached={() => {
